@@ -1,29 +1,30 @@
 #!/usr/bin/env python
-import os, os.path, sys, tarfile, platform, urllib, xml.dom.minidom, subprocess
+import os, os.path, sys, getopt, xml.dom.minidom, subprocess
 
 # https://github.com/Prototik/HoloEverywhere-Addon-Roboguice/blob/0d343e0ddd0607b0c9319eb21fdc50d451019f42/.travis.py
 
-def main():
-  mvn_fetch()
-  mvn_test()
+def main(argv):
+    mvn_fetch()
+    mvn_test()
   
-	if os.environ["TRAVIS_SECURE_ENV_VARS"] == "true" && os.environ["SONATYPE_SNAPSHOT"] == "true":
-		mvn_deploy();
+    if os.environ["TRAVIS_SECURE_ENV_VARS"] == "true" && os.environ["SONATYPE_SNAPSHOT"] == "true":
+        mvn_deploy();
 
-def mvn_call(tests = fale, extra = [])
-  args = ["mvn", "install", "--batch-mode"]
-  if not tests:
-    args = args + ["-DskipTests=true"]
-  call(args + extra)
+def mvn_call(tests = false, extra = [])
+    args = ["mvn", "install", "--batch-mode"]
+    if not tests:
+        args = args + ["-DskipTests=true"]
+    call(args + extra)
 	    
 def mvn_fetch(num):
 	print " # [MAVEN] Fetching all"
 	for i in range(0, num):
-	  try:
-	    mvn_call()
-	    break
-    except subprocess.CalledProcessError:
-      print " [MAVEN] Retrying fetch [" + i + "].."
+	    try:
+	        mvn_call()
+	        break
+        except subprocess.CalledProcessError:
+            print " [MAVEN] Retrying fetch [" + i + "].."
+            pass
 
 def mvn_test():
 	print " # [MAVEN] Test..."
@@ -91,4 +92,4 @@ def which(program):
     return False
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
