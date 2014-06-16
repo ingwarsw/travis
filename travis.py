@@ -9,13 +9,18 @@ def main(argv):
         mvn_fetch()
     elif mode == "--test":
         mvn_test()
-    elif mode == "--deploy" and os.environ["TRAVIS_SECURE_ENV_VARS"] == "true" and os.environ["SONATYPE_SNAPSHOT"] == "true":
-        mvn_deploy();
+    elif mode == "--deploy":
+        if "TRAVIS_SECURE_ENV_VARS" in os.environ and os.environ["TRAVIS_SECURE_ENV_VARS"] == "true" and "SONATYPE_SNAPSHOT" in os.environ and os.environ["SONATYPE_SNAPSHOT"] == "true":
+            mvn_deploy()
+        else:
+            print " # [ERR] Wrong variables to deploy"
     else:
         print " # [ERR] No such mode"
 
 def mvn_call(tests = False, extra = []):
-    args = ["mvn", "install", "--batch-mode"]
+    args = ["mvn", "install", "--batch-mode",]
+    if "PROFILE" in os.environ:
+        args = args + ["-P{}".format(os.environ["PROFILE"])]
     if not tests:
         args = args + ["-DskipTests=true"]
     call(args + extra)
