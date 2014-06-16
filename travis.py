@@ -30,6 +30,7 @@ def mvn_fetch(num = 3):
     for i in range(0, num + 1):
         try:
             mvn_call()
+            print " # [MAVEN] Fetch done after [{}] retries".formar(i + 1)
             break
         except subprocess.CalledProcessError:
             if i < num:
