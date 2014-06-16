@@ -13,7 +13,7 @@ def main(argv):
         if "TRAVIS_SECURE_ENV_VARS" in os.environ and os.environ["TRAVIS_SECURE_ENV_VARS"] == "true" and "SONATYPE_SNAPSHOT" in os.environ and os.environ["SONATYPE_SNAPSHOT"] == "true":
             mvn_deploy()
         else:
-            print " # [ERR] Wrong variables to deploy"
+            print " # [MAVEN] Wrong variables to deploy, so not deploying"
     else:
         print " # [ERR] No such mode"
 
