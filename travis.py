@@ -48,7 +48,7 @@ def mvn_deploy():
     print " # [MAVEN] Deploy..."
     maven_config = os.getcwd() + "/.maven.xml"
     create_maven_config(maven_config, os.environ["SONATYPE_USERNAME"], os.environ["SONATYPE_PASSWORD"])
-    mvn_call(["deploy", "--settings=" + maven_config])
+    mvn_call(False, ["deploy", "--settings=" + maven_config])
 
 def create_maven_config(filename, username, password):
     m2 = xml.dom.minidom.parse(os.path.expanduser("~") + '/.m2/settings.xml')
