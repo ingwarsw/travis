@@ -18,7 +18,7 @@ def main(argv):
         print " # [ERR] No such mode"
 
 def mvn_call(tests = False, extra = []):
-    args = ["mvn", "install", "--batch-mode",]
+    args = ["mvn", "test", "--batch-mode", "-T4"]
     if "PROFILE" in os.environ:
         args = args + ["-P{}".format(os.environ["PROFILE"])]
     if not tests:
