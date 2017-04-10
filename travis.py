@@ -10,7 +10,7 @@ def main(argv):
     elif mode == "--test":
         mvn_test()
     elif mode == "--deploy":
-        if "TRAVIS_SECURE_ENV_VARS" in os.environ and os.environ["TRAVIS_SECURE_ENV_VARS"] == "true" and "DEPLOY_SNAPSHOT" in os.environ and os.environ["DEPLOY_SNAPSHOT"] == "true":
+        if "TRAVIS_SECURE_ENV_VARS" in os.environ and os.environ["TRAVIS_SECURE_ENV_VARS"] == "true" and "DEPLOY" in os.environ and os.environ["DEPLOY"] == "true":
             mvn_deploy()
         else:
             print " # [MAVEN] Wrong variables to deploy, so not deploying"
