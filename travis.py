@@ -10,7 +10,7 @@ def main(argv):
     elif mode == "--test":
         mvn_test()
     elif mode == "--deploy":
-        if "TRAVIS_SECURE_ENV_VARS" in os.environ and os.environ["TRAVIS_SECURE_ENV_VARS"] == "true" and "SONATYPE_SNAPSHOT" in os.environ and os.environ["SONATYPE_SNAPSHOT"] == "true":
+        if "TRAVIS_SECURE_ENV_VARS" in os.environ and os.environ["TRAVIS_SECURE_ENV_VARS"] == "true" and "DEPLOY_SNAPSHOT" in os.environ and os.environ["DEPLOY_SNAPSHOT"] == "true":
             mvn_deploy()
         else:
             print " # [MAVEN] Wrong variables to deploy, so not deploying"
@@ -47,7 +47,7 @@ def mvn_test():
 def mvn_deploy():
     print " # [MAVEN] Deploy..."
     maven_config = os.getcwd() + "/.maven.xml"
-    create_maven_config(maven_config, os.environ["SONATYPE_USERNAME"], os.environ["SONATYPE_PASSWORD"])
+    create_maven_config(maven_config, os.environ["DEPLOY_USERNAME"], os.environ["DEPLOY_PASSWORD"])
     mvn_call(False, ["deploy", "--settings=" + maven_config])
 
 def create_maven_config(filename, username, password):
@@ -64,7 +64,7 @@ def create_maven_config(filename, username, password):
     serverNode = m2.createElement("server")
 
     serverId = m2.createElement("id")
-    serverId.appendChild(m2.createTextNode("sonatype-nexus-snapshots"))
+    serverId.appendChild(m2.createTextNode("deploy-repo-id"))
     serverNode.appendChild(serverId)
 
     serverUser = m2.createElement("username")
