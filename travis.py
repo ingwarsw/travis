@@ -47,10 +47,10 @@ def mvn_test():
 def mvn_deploy():
     print " # [MAVEN] Deploy..."
     maven_config = os.getcwd() + "/.maven.xml"
-    create_maven_config(maven_config, os.environ["DEPLOY_USERNAME"], os.environ["DEPLOY_PASSWORD"])
+    create_maven_config(maven_config, os.environ["DEPLOY_USERNAME"], os.environ["DEPLOY_PASSWORD"], os.environ["DEPLOY_SERVER_ID"])
     mvn_call(False, ["deploy", "--settings=" + maven_config])
 
-def create_maven_config(filename, username, password):
+def create_maven_config(filename, username, password, server_id):
     m2 = xml.dom.minidom.parse(os.path.expanduser("~") + '/.m2/settings.xml')
 
     settings = m2.getElementsByTagName("settings")[0]
@@ -64,7 +64,7 @@ def create_maven_config(filename, username, password):
     serverNode = m2.createElement("server")
 
     serverId = m2.createElement("id")
-    serverId.appendChild(m2.createTextNode("deploy-repo-id"))
+    serverId.appendChild(m2.createTextNode(server_id))
     serverNode.appendChild(serverId)
 
     serverUser = m2.createElement("username")
